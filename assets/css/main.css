@@ -3032,6 +3032,18 @@
 
 	}
 
+img.thumbnail {
+	border-radius: 100%;
+	object-fit: cover;
+	object-position: top;
+	height: 300px;
+	width: 300px;
+}
+
+img.screenshot {
+	width: 100%;
+}
+
 ul.portfolio {
 	list-style-type: none;
 	padding: 0;
