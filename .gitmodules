@@ -1,3 +1,6 @@
 [submodule "bestris"]
 	path = bestris
 	url = https://github.com/iannguyen/BesTris
+[submodule "BesTris"]
+	path = BesTris
+	url = https://github.com/iannguyen/BesTris
