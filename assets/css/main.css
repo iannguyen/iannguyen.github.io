@@ -1312,7 +1312,7 @@
 	html {
 		background-color: #313a3d;
 		background-attachment: fixed,						fixed;
-		background-image: url("images/overlay.png"), url("../../images/bg.jpg");
+		background-image: url("images/overlay.png"), url("http://res.cloudinary.com/dms46o1eu/image/upload/v1446441322/2880-x-1800_fujnzj.png");
 		background-position: top left,					center center;
 		background-repeat: repeat,						none;
 		background-size: auto,						cover;
@@ -3060,8 +3060,8 @@ ul.skills li{
 	height: 100px;
 	padding-left: 0;
 	display: inline;
+	padding: 1%;
 }
 ul.skills li i {
 	font-size: 100px;
-	padding: 3%;
 }
