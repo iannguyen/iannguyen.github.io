@@ -1,3 +1,3 @@
-[submodule "Tetris"]
-	path = Tetris
-	url = https://github.com/iannguyen/Tetris
+[submodule "bestris"]
+	path = bestris
+	url = https://github.com/iannguyen/bestris
