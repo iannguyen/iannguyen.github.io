@@ -1,13 +1,24 @@
 /*
-	Highlights by HTML5 UP
-	html5up.net | @n33co
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+	Locus by Pixelarity
+	pixelarity.com @pixelarity
+	License: pixelarity.com/license
 */
 
 (function($) {
 
+	var settings = {
+
+		// Parallax background effect?
+			parallax: true,
+
+		// Parallax factor (lower = more intense, higher = less intense).
+			parallaxFactor: 5
+
+	};
+
 	skel.breakpoints({
-		large: '(max-width: 1680px)',
+		xlarge: '(max-width: 1680px)',
+		large: '(max-width: 1366px)',
 		medium: '(max-width: 980px)',
 		small: '(max-width: 736px)',
 		xsmall: '(max-width: 480px)'
@@ -15,64 +26,8 @@
 
 	$(function() {
 
-		var	$window = $(window),
-			$body = $('body'),
-			$html = $('html');
-
-		// Disable animations/transitions until the page has loaded.
-			$html.addClass('is-loading');
-
-			$window.on('load', function() {
-				window.setTimeout(function() {
-					$html.removeClass('is-loading');
-				}, 0);
-			});
-
-		// Touch mode.
-			if (skel.vars.mobile) {
-
-				var $wrapper;
-
-				// Create wrapper.
-					$body.wrapInner('<div id="wrapper" />');
-					$wrapper = $('#wrapper');
-
-					// Hack: iOS vh bug.
-						if (skel.vars.os == 'ios')
-							$wrapper
-								.css('margin-top', -25)
-								.css('padding-bottom', 25);
-
-					// Pass scroll event to window.
-						$wrapper.on('scroll', function() {
-							$window.trigger('scroll');
-						});
-
-				// Scrolly.
-					$window.on('load.hl_scrolly', function() {
-
-						$('.scrolly').scrolly({
-							speed: 1500,
-							parent: $wrapper,
-							pollOnce: true
-						});
-
-						$window.off('load.hl_scrolly');
-
-					});
-
-				// Enable touch mode.
-					$html.addClass('is-touch');
-
-			}
-			else {
-
-				// Scrolly.
-					$('.scrolly').scrolly({
-						speed: 1500
-					});
-
-			}
+		var $window = $(window),
+			$body = $('body');
 
 		// Fix: Placeholder polyfill.
 			$('form').placeholder();
@@ -85,134 +40,81 @@
 				);
 			});
 
-		// Header.
-			var $header = $('#header'),
-				$headerTitle = $header.find('header'),
-				$headerContainer = $header.find('.container');
+		// Off-Canvas Navigation.
 
-			// Make title fixed.
-				if (!skel.vars.mobile) {
+			// Navigation Button.
+				$(
+					'<div id="navButton">' +
+						'<a href="#navPanel" class="toggle"></a>' +
+					'</div>'
+				)
+					.appendTo($body);
 
-					$window.on('load.hl_headerTitle', function() {
-
-						skel.on('-medium !medium', function() {
-
-							$headerTitle
-								.css('position', 'fixed')
-								.css('height', 'auto')
-								.css('top', '50%')
-								.css('left', '0')
-								.css('width', '100%')
-								.css('margin-top', ($headerTitle.outerHeight() / -2));
-
-						});
-
-						skel.on('+medium', function() {
-
-							$headerTitle
-								.css('position', '')
-								.css('height', '')
-								.css('top', '')
-								.css('left', '')
-								.css('width', '')
-								.css('margin-top', '');
-
-						});
-
-						$window.off('load.hl_headerTitle');
-
+			// Navigation Panel.
+				$(
+					'<div id="navPanel">' +
+						'<nav>' +
+							$('#nav').navList() +
+						'</nav>' +
+					'</div>'
+				)
+					.appendTo($body)
+					.panel({
+						delay: 500,
+						hideOnClick: true,
+						resetScroll: true,
+						resetForms: true,
+						side: 'top',
+						target: $body,
+						visibleClass: 'navPanel-visible'
 					});
 
-				}
+			// Fix: Remove transitions on WP<10 (poor/buggy performance).
+				if (skel.vars.os == 'wp' && skel.vars.osVersion < 10)
+					$('#navPanel')
+						.css('transition', 'none');
 
-			// Scrollex.
-				skel.on('-small !small', function() {
-					$header.scrollex({
-						terminate: function() {
+		// Parallax background.
 
-							$headerTitle.css('opacity', '');
+			// Disable parallax on IE (smooth scrolling is jerky), and on mobile platforms (= better performance).
+				if (skel.vars.browser == 'ie'
+				||	skel.vars.mobile)
+					settings.parallax = false;
 
-						},
-						scroll: function(progress) {
+			if (settings.parallax) {
 
-							// Fade out title as user scrolls down.
-								if (progress > 0.5)
-									x = 1 - progress;
-								else
-									x = progress;
+				var $dummy = $(), $bg;
 
-								$headerTitle.css('opacity', Math.max(0, Math.min(1, x * 2)));
+				$window
+					.on('scroll.locus_parallax', function() {
 
-						}
-					});
-				});
+						// Adjust background position.
+						// Note: If you've removed the background overlay image, remove the "top left, " bit.
+							$bg.css('background-position', 'top left, center ' + (-1 * (parseInt($window.scrollTop()) / settings.parallaxFactor)) + 'px');
 
-				skel.on('+small', function() {
+					})
+					.on('resize.locus_parallax', function() {
 
-					$header.unscrollex();
+						// If we're in a situation where we need to temporarily disable parallax, do so.
+						// Note: If you've removed the background overlay image, remove the "top left, " bit.
+							if (skel.breakpoint('medium').active) {
 
-				});
+								$body.css('background-position', 'top left, top center');
+								$bg = $dummy;
 
-		// Main sections.
-			$('.main').each(function() {
+							}
 
-				var $this = $(this),
-					$primaryImg = $this.find('.image.primary > img'),
-					$bg,
-					options;
+						// Otherwise, continue as normal.
+							else
+								$bg = $body;
 
-				// No primary image? Bail.
-					if ($primaryImg.length == 0)
-						return;
+						// Trigger scroll handler.
+							$window.triggerHandler('scroll.locus_parallax');
 
-				// Hack: IE8 fallback.
-					if (skel.vars.IEVersion < 9) {
+					})
+					.trigger('resize.locus_parallax');
 
-						$this
-							.css('background-image', 'url("' + $primaryImg.attr('src') + '")')
-							.css('-ms-behavior', 'url("css/ie/backgroundsize.min.htc")');
-
-						return;
-
-					}
-
-				// Create bg and append it to body.
-					$bg = $('<div class="main-bg" id="' + $this.attr('id') + '-bg"></div>')
-						.css('background-image', (
-							'url("css/images/overlay.png"), url("' + $primaryImg.attr('src') + '")'
-						))
-						.appendTo($body);
-
-				// Scrollex.
-					options = {
-						mode: 'middle',
-						delay: 200,
-						top: '-10vh',
-						bottom: '-10vh'
-					};
-
-					if (skel.canUse('transition')) {
-
-						options.init = function() { $bg.removeClass('active'); };
-						options.enter = function() { $bg.addClass('active'); };
-						options.leave = function() { $bg.removeClass('active'); };
-
-					}
-					else {
-
-						$bg
-							.css('opacity', 1)
-							.hide();
-
-						options.init = function() { $bg.fadeOut(0); };
-						options.enter = function() { $bg.fadeIn(400); };
-						options.leave = function() { $bg.fadeOut(400); };
-
-					}
-
-					$this.scrollex(options);
-
-			});
+			}
 
 	});
 
