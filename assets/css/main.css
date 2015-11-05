@@ -3246,9 +3246,9 @@ ul.skills {
 ul.skills li{
 	width: 100px;
 	height: 100px;
-	padding: 2em;
+	padding: 1.5em;
 	display: inline;
 }
 ul.skills li i {
-	font-size: 6.5vw;
+	font-size: 7vw;
 }
