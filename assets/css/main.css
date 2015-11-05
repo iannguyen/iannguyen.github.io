@@ -1552,8 +1552,8 @@
 
 	body {
 		background-color: #23141f;
-		background-attachment: scroll,							fixed;
-		background-image: url("images/overlay1.png"), url("../../images/redgradient.png");
+		background-attachment: fixed,							fixed;
+		background-image: url("./images/overlay2"), url("../../images/redgradient.png");
 		/*background-position: top left,						top center;*/
 		background-position: top left,						top center;
 		background-repeat: repeat,							no-repeat;
