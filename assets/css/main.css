@@ -3246,9 +3246,14 @@ ul.skills {
 ul.skills li{
 	width: 100px;
 	height: 100px;
-	padding: 1.5em;
+	padding: 1em;
 	display: inline;
 }
 ul.skills li i {
 	font-size: 7vw;
+}
+img.icon {
+	top: 5px;
+	width: 7vw;
+	height: 7vw;
 }
