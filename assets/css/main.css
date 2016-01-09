@@ -3244,8 +3244,6 @@ ul.skills {
 	text-align: center;
 }
 ul.skills li{
-	width: 100px;
-	height: 100px;
 	padding: 1em;
 	display: inline;
 }
@@ -3253,7 +3251,7 @@ ul.skills li i {
 	font-size: 7vw;
 }
 img.icon {
-	top: 5px;
+	position: relative;
+	top: 1%;
 	width: 7vw;
-	height: 7vw;
 }
