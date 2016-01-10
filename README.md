@@ -1,3 +1,3 @@
 [My Portfolio Website][site]
 
-[site]: iannguyen.io
+[site]: http://iannguyen.io
