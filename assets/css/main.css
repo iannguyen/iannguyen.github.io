@@ -3256,15 +3256,13 @@ img.icon {
 	width: 7vw;
 }
 .global {
-	width: 10%;
+	height: 1em;
+	width: 1em;
+	object-fit: cover;
+	object-position: center;
+	border: 0.1em solid #757575;
+	border-radius: 25px;
 	position: relative;
-	margin: auto;
-	left: 0;
-	right: 0;
+	bottom: -0.1em;
+	left: -0.1em;
 }
-/*.global {
-	background-image: url("../../images/GE.jpg");
-	background-position: center;
-	background-size: cover;
-	background-repeat: no-repeat;
-}*/
